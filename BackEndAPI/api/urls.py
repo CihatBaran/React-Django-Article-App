@@ -1,4 +1,4 @@
-from api.api_views import ArticleListCreateApiView, ArticleRetrieveUpdateDestroyAPIView
+from api.api_views import ArticleListCreateApiView, ArticleRetrieveUpdateDestroyAPIView, UserListCreateApiView
 
 from django.urls import path
 
@@ -10,4 +10,5 @@ urlpatterns = [
          name="get_all_post_new_articles"),
     path('articles/<int:id>', ArticleRetrieveUpdateDestroyAPIView.as_view(),
          name="delete_update_get_article_from_id"),
+    path('users', UserListCreateApiView.as_view(), name="user_all_post")
 ]

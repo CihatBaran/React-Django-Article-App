@@ -7,7 +7,7 @@ from api.models import Article
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description')
+    list_display = ('id', 'title', 'description', 'author')
     list_filter = ('title',)
 
     class Meta:

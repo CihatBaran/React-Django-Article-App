@@ -1,5 +1,7 @@
 from api.models import Article
+from django.contrib.auth import get_user_model
 from api.serializers import ArticleSerializer
+from api.serializers import UserSerializer
 
 from rest_framework.generics import ListAPIView
 from rest_framework.generics import CreateAPIView
@@ -9,6 +11,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.filters import SearchFilter
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import BasePermission
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 
@@ -46,3 +49,12 @@ class ArticleRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
     authentication_classes = (TokenAuthentication,)
     permission_classes = (OnlyForGetPermission,)
+
+
+class UserListCreateApiView(ListCreateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+    def post(self, request, *args, **kwargs):
+
+        return self.create(request, *args, **kwargs)
