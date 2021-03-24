@@ -37,7 +37,7 @@ class ArticleTest(TestCase):
         res = self.client.get(CREATE_GET_ARTICLE_URL)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
-    def test_delete_api_user(self):
+    def test_delete_api_article(self):
         payload = {
             "title": "cihat",
             "description": "delete"
@@ -47,3 +47,18 @@ class ArticleTest(TestCase):
 
         res = self.client.delete(f'/api/v1/articles/{new_article.id}')
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_update_existing_article(self):
+        payload = {
+            "title": "cihat",
+            "description": "delete"
+        }
+        article = Article(**payload)
+        article.save()
+        title = article.title
+
+        res = self.client.patch(f'/api/v1/articles/{article.id}', {
+            "title": "Postman"
+        })
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertNotEqual(res.data['title'], title)

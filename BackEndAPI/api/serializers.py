@@ -1,4 +1,5 @@
 from api.models import Article
+from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
@@ -17,10 +18,11 @@ class ArticleSerializer(serializers.ModelSerializer):
         return "Long"
 
 
-# class BookSerializer(serializers.ModelSerializer):
-#     articles = ArticleSerializer(many=True)
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        style={'input_type': 'password', 'placeholder': 'Password'},
+        trim_whitespace=False)
 
-#     class Meta:
-#         model = Book
-#         fields = ('id', 'name', 'genre', 'price', 'articles',
-#                   'date', 'author')
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'username', 'password')
