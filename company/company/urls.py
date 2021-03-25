@@ -15,14 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from driver.api_views import DriverCreateAPI, DriverListAPI, DriverRetrieveUpdateDestroyAPI
+from driver.api_views import DriverCreateAPI, DriverListAPI, DriverRetrieveUpdateDestroyAPI, UserListCreateApiView
 from driver.views import schema_view
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/users', UserListCreateApiView.as_view()),
     path('api/v1/drivers/', DriverListAPI.as_view()),
     path('api/v1/drivers/new', DriverCreateAPI.as_view()),
     path('api/v1/drivers/<int:id>', DriverRetrieveUpdateDestroyAPI.as_view()),
     path('swagger/', schema_view.with_ui('swagger',
                                          cache_timeout=0), name='schema-swagger-ui'),
+    path('auth/', obtain_auth_token),
+
 ]

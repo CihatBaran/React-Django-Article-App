@@ -1,9 +1,9 @@
-import axios from '../../axios';
 import React, { Component } from 'react';
 import Aux from '../../Aux';
 import { Form, Button, Container } from 'react-bootstrap';
 import classes from './UpdateDriver.module.css';
 import { Redirect } from 'react-router-dom';
+import APIService from '../../containers/APIService';
 
 export default class UpdateDriver extends Component {
   state = {
@@ -15,7 +15,7 @@ export default class UpdateDriver extends Component {
     },
   };
   componentDidMount() {
-    axios.get(`/api/v1/drivers/${this.props.indID}`).then((res) => {
+    APIService.retrieveUpdateIndividualDriver(this.props.indID).then((res) => {
       this.setState({
         data: res.data,
       });
@@ -32,13 +32,18 @@ export default class UpdateDriver extends Component {
   };
   formSubmittedHandler = (e) => {
     e.preventDefault();
-    axios
-      .put(`/api/v1/drivers/${this.props.indID}`, this.state.data)
-      .then((res) => {
-        this.setState({
-          redirect: true,
-        });
+
+    const request = {
+      name: this.state.data.name,
+      route: this.state.data.route,
+      salary: this.state.data.salary,
+    };
+
+    APIService.updateIndividualDriver(this.props.indID, request).then((res) => {
+      this.setState({
+        redirect: true,
       });
+    });
   };
 
   render() {

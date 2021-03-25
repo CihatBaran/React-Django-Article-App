@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import classes from './NewDriver.module.css';
 import axios from '../../axios';
 import { withRouter, Redirect } from 'react-router-dom';
+import APIService from '../../containers/APIService';
 
 class NewDriver extends React.Component {
   constructor() {
@@ -25,7 +26,9 @@ class NewDriver extends React.Component {
 
   formSubmittedHandler = (event) => {
     event.preventDefault();
-    axios.post('/api/v1/drivers/new', this.state.driver).then((res) => {
+
+    APIService.newDriverAdd(this.state.driver).then((res) => {
+      console.log(res);
       if (res.status === 201) {
         this.setState({
           redirect: true,

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-import axios from '../../axios';
+
 import Aux from '../../Aux';
 import { Container, Row } from 'react-bootstrap';
 import Drivers from '../Drivers/Drivers';
+import APIService from './../../containers/APIService';
 
 export default class Search extends Component {
   state = {
@@ -11,14 +12,13 @@ export default class Search extends Component {
   };
   componentDidMount() {
     const values = queryString.parse(this.props.location.search);
-    axios
-      .get(`/api/v1/drivers?search=${values.search}`)
+
+    APIService.searchGetByName(values.search)
       .then((res) => {
         this.setState({
           drivers: res.data.results,
           isLoaded: true,
         });
-        console.log(this.state.drivers);
       })
       .catch((err) => {
         this.setState({

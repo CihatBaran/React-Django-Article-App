@@ -1,16 +1,27 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect, NavLink } from 'react-router-dom';
 import Aux from '../../Aux';
 import classes from './Navbar.module.css';
+import Cookies from 'universal-cookie';
 
 class Navbar_main extends React.Component {
   state = {
     redirect: null,
     value: '',
   };
+  cookies = new Cookies();
+
+  logoutHandler = () => {
+    this.cookies.set('myToken', null);
+    this.cookies.remove('myToken');
+    // this.props.history.push('/login');
+    this.setState({
+      redirect: <Redirect to='/login' />,
+    });
+  };
+
   formSubmittedHandler = (event) => {
     event.preventDefault();
     this.props.history.push(`/search?search=${this.state.value}`);
@@ -27,11 +38,7 @@ class Navbar_main extends React.Component {
       <Aux>
         {this.state.redirect ? this.state.redirect : null}
         <Navbar bg='light' expand='lg' className={classes.Navbar}>
-          <Navbar.Brand href='#home'>
-            <NavLink to='/' exact>
-              React-Bootstrap
-            </NavLink>
-          </Navbar.Brand>
+          <Navbar.Brand href='#home'>React-Bootstrap</Navbar.Brand>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='mr-auto'>
@@ -55,6 +62,12 @@ class Navbar_main extends React.Component {
                 Search
               </Button>
             </Form>
+            <Button
+              className={`btn btn-danger ml-3`}
+              onClick={this.logoutHandler}
+            >
+              Logout
+            </Button>
           </Navbar.Collapse>
         </Navbar>
       </Aux>
