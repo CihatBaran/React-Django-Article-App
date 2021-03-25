@@ -12,7 +12,7 @@ export default function Driver(props) {
       <td className='align-middle'>{props.driver.start_date_of_employment}</td>
       <td className='align-middle'>{props.driver.salary_status}</td>
       <td className='align-middle'>
-        <NavLink to={`/api/v1/drivers/${props.id}`}>
+        <NavLink to={`/api/v1/drivers/${props.driver.id}`}>
           <Button className='btn btn-primary btn-sm'>Update</Button>
         </NavLink>
       </td>
